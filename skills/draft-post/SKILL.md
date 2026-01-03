@@ -44,6 +44,8 @@ Ask each question **one at a time**, wait for the response, then acknowledge bef
 Based on their answers:
 1. Draft a Substack post (200-500 words)
 2. Include:
+   - Title (engaging and descriptive)
+   - Subtitle (expands on the title, provides context)
    - Engaging opening hook
    - Clear explanation of the work/topic
    - The key points they identified
@@ -70,8 +72,13 @@ Once Substack version is approved:
    - Focus on the most compelling points
    - End with engagement (question, call-to-action, or invitation to discuss)
    - Professional but conversational tone
-3. Show word count at the end
-4. Present the LinkedIn version
+   - **NO external links in the main post body** (LinkedIn algorithm penalises posts with links)
+3. If there are links (GitHub repo, documentation, etc.):
+   - Reference them in the post copy (e.g., "I've put the setup on GitHub")
+   - Place the actual URL at the very end for posting as a first comment
+   - Note to user: "Post the link below as the first comment after publishing for better reach"
+4. Show word count at the end
+5. Present the LinkedIn version with the link separated at the bottom
 
 ### Step 5: Final Confirmation
 
@@ -96,6 +103,7 @@ Once Substack version is approved:
 **Substack Draft:**
 ```
 [Title]
+[Subtitle]
 
 [Post content 200-500 words]
 
@@ -104,9 +112,13 @@ Word count: [X] words
 
 **LinkedIn Summary:**
 ```
-[Post content 100-300 words]
+[Post content 100-300 words, NO links in body]
 
 Word count: [X] words
+
+---
+First comment (post this after publishing):
+[URL links here]
 ```
 
 ## Notes
