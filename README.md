@@ -6,6 +6,10 @@ A cross-platform directory for sharing AI agent capabilities across multiple too
 
 This repository contains reusable agent skills that can be shared across different AI coding assistants (Claude Code, GitHub Copilot, Cursor, and others).
 
+## Why This Is Useful
+
+Using the same set of skills and agent instructions across different tools makes it easier to swap between interfaces, either for comparative purposes or to continue working after using up available inference allowances on different platforms.
+
 ## File Structure
 
 ```
