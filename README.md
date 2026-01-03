@@ -26,15 +26,22 @@ To share these skills across different AI tools, create symlinks from each tool'
 ### For Claude Code
 
 ```bash
-ln -s ~/.agents/AGENTS.md ~/.claude/AGENTS.md
+ln -s ~/.agents/AGENTS.md ~/.claude/CLAUDE.md
 ln -s ~/.agents/skills ~/.claude/skills
 ```
 
-### For GitHub Copilot / Codex
+### For Codex CLI
 
 ```bash
 ln -s ~/.agents/AGENTS.md ~/.codex/AGENTS.md
 ln -s ~/.agents/skills ~/.codex/skills
+```
+
+### For GitHub Copilot
+
+```bash
+ln -s ~/.agents/AGENTS.md ~/.github/AGENTS.md
+ln -s ~/.agents/skills ~/.github/skills
 ```
 
 ### For Other Tools
