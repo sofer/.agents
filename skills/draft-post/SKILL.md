@@ -52,8 +52,13 @@ Based on their answers:
    - Personal insights or learnings
    - Any technical details or links mentioned
    - Conversational, accessible tone (unless they specified otherwise)
-3. Show word count at the end
-4. Present the draft clearly with markdown formatting
+3. Formatting:
+   - Use backticks for inline code (file paths, directory names, commands, variable names, etc.)
+   - Use code blocks for multi-line code examples
+   - Do NOT indent paragraphs
+   - Keep paragraphs left-aligned
+4. Show word count at the end
+5. Present the draft clearly with markdown formatting
 
 ### Step 3: Get Approval
 
