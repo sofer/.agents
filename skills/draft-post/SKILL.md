@@ -39,6 +39,13 @@ Ask each question **one at a time**, wait for the response, then acknowledge bef
 - Ask: "What tone would you like? (conversational, technical, tutorial-style, reflective, etc.)"
 - Default to conversational if they're unsure
 
+## General Formatting (applies to all content)
+
+- Use backticks for inline code (file paths, directory names, commands, variable names, etc.)
+- Use code blocks for multi-line code examples
+- Do NOT indent paragraphs
+- Keep paragraphs left-aligned
+
 ### Step 2: Create Substack Draft (250-500 words)
 
 Based on their answers:
@@ -52,13 +59,8 @@ Based on their answers:
    - Personal insights or learnings
    - Any technical details or links mentioned
    - Conversational, accessible tone (unless they specified otherwise)
-3. Formatting:
-   - Use backticks for inline code (file paths, directory names, commands, variable names, etc.)
-   - Use code blocks for multi-line code examples
-   - Do NOT indent paragraphs
-   - Keep paragraphs left-aligned
-4. Show word count at the end
-5. Present the draft clearly with markdown formatting
+3. Show word count at the end
+4. Present the draft clearly with markdown formatting
 
 ### Step 3: Get Approval
 
@@ -67,21 +69,22 @@ After showing the Substack draft:
 - If they want changes, revise and re-present
 - If approved, proceed to Step 4
 
-### Step 4: Create LinkedIn Summary (150-250 words)
+### Step 4: Create LinkedIn Summary (100-150 words)
 
 Once Substack version is approved:
-1. Create a LinkedIn summary (150-250 words, aim for 200) based on the approved Substack post
+1. Create a LinkedIn summary (100-150 words) based on the approved Substack post
 2. This should be:
-   - More concise and punchy
-   - Hook in the first line
-   - Focus on the most compelling points
-   - End with engagement (question, call-to-action, or invitation to discuss)
+   - Open with the hook/problem from Substack
+   - Present the solution directly and concisely
+   - Share personal results/benefits using "I" statements
+   - End casually with "In case anyone is interested, I've put [description] on GitHub. Link in the comments."
    - Professional but conversational tone
    - **NO external links in the main post body** (LinkedIn algorithm penalises posts with links)
+   - Omit code blocks (can be included in first comment if needed)
 3. If there are links (GitHub repo, documentation, etc.):
-   - Reference them in the post copy (e.g., "I've put the setup on GitHub")
-   - Place the actual URL at the very end for posting as a first comment
-   - Note to user: "Post the link below as the first comment after publishing for better reach"
+   - Reference at the end: "In case anyone is interested, I've put [description] on GitHub. Link in the comments."
+   - DO NOT include any URLs in the main post body
+   - Place the actual URL ONLY in the "First comment" section at the very end
 4. Show word count at the end
 5. Present the LinkedIn version with the link separated at the bottom
 
@@ -129,13 +132,14 @@ Word count: [X] words
 
 **LinkedIn Summary:**
 ```
-[Post content 150-250 words, aim for 200, NO links in body]
+[Post content]
 
 Word count: [X] words
 
 ---
 First comment (post this after publishing):
 [URL links here]
+[Optional: code blocks if omitted from main post]
 ```
 
 **Substack Restack Commentary:**
