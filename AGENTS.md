@@ -6,6 +6,7 @@ This directory contains reusable AI agent capabilities following open standards.
 
 - Use British English
 - Avoid using emdashes when parentheses or commas will do
+- For headers, use sentence case, not title case
 
 ## Standards
 
