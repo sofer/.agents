@@ -4,8 +4,7 @@ This directory contains reusable AI agent capabilities following open standards.
 
 ## Writing Style
 
-- Use British English
-- Avoid using emdashes when parentheses or commas will do
+- Use American English
 - For headers, use sentence case, not title case
 
 ## Standards

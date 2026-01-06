@@ -1,3 +1,0 @@
-# Columns to remove from CSV before anonymisation output
-# Lines starting with '#' are ignored
-Record - Airtable ID
