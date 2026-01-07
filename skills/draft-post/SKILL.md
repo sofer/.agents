@@ -43,16 +43,31 @@ Ask each question **one at a time**, wait for the response, then acknowledge bef
 
 - Use backticks for inline code (file paths, directory names, commands, variable names, etc.)
 - Use code blocks for multi-line code examples
-- Do NOT indent paragraphs
+- DO NOT indent paragraphs with spaces or tabs
 - Keep paragraphs left-aligned
+- Use active voice and personal ownership ("I built", "I created")
+- Be conversational and natural, avoid formal writing
+- Use contemporary terminology when appropriate
+- Be direct, avoid unnecessary qualifiers like "actually", "really", "very"
+- Let thoughts flow naturally rather than in rigid structures
+- Avoid over-explaining points
+- Avoid superlatives - use precise, measured language instead
+- Avoid using semi-colons
+- Avoid using colons to introduce statements
+- Avoid rhetorical questions
+- Avoid em dashes
+- Avoid "isn't just X, it's Y" constructions
+- Avoid overly neat or pithy closing statements that try to wrap up with a flourish
+- Don't add grand generalisations or "profound" statements at the end
+- Let the content end naturally without forcing a conclusion
 
 ### Step 2: Create Substack Draft (250-500 words)
 
 Based on their answers:
 1. Draft a Substack post (250-500 words, aim for 300-400)
 2. Include:
-   - Title (engaging and descriptive)
-   - Subtitle (expands on the title, provides context)
+   - Title (engaging and descriptive, use sentence case not title case)
+   - Subtitle (expands on the title, provides context, use sentence case not title case)
    - Engaging opening hook
    - Clear explanation of the work/topic
    - The key points they identified
@@ -60,7 +75,11 @@ Based on their answers:
    - Any technical details or links mentioned
    - Conversational, accessible tone (unless they specified otherwise)
 3. Show word count at the end
-4. Present the draft clearly with markdown formatting
+4. Present the draft with proper formatting
+   - CRITICAL: Ensure there are NO leading spaces or tabs before any lines
+   - Start all lines flush left (no indentation)
+   - For Substack, use plain URLs (not markdown link format)
+   - Links should appear as full URLs that Substack will convert to clickable links
 
 ### Step 3: Get Approval
 
