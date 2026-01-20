@@ -53,9 +53,27 @@ ln -s ~/.agents/AGENTS.md ~/.<tool-directory>/AGENTS.md
 ln -s ~/.agents/skills ~/.<tool-directory>/skills
 ```
 
-## Creating Skills
+## Project initialisation
+
+When starting a new project in Claude Code, use the `/init-override` skill instead of `/init`:
+
+```
+/init-override
+```
+
+This Claude-specific skill:
+1. Creates an `AGENTS.md` file in the project root
+2. Symlinks `CLAUDE.md` to `AGENTS.md` so Claude Code reads the same file
+3. Optionally runs `/init` to auto-discover project settings
+4. Sanitises the output to remove Claude-specific references
+
+This allows you to use Claude Code's `/init` feature while keeping project instructions portable across different AI tools.
+
+## Creating skills
 
 Skills follow the [Agent Skills](https://agentskills.io/) open standard.
+
+Note: Some skills in this directory may be personal utilities or tool-specific rather than cross-platform. The `init-override` skill, for example, is Claude-specific but supports the agent-agnostic aims of this repository by sanitising `/init` output.
 
 ### Simple Skill (Single File)
 
