@@ -19,6 +19,14 @@ Remove any such content if it already exists.
 - Avoid using emdashes when parentheses or commas will do
 - For headers, use sentence case, not title case
 
+## Git workflow
+
+Default: feature-branch strategy
+
+- Create feature branch before implementing changes
+- Open PR for review before merging to main
+- Squash merge to keep history clean
+
 ## Standards
 
 See [https://agentskills.io/](https://agentskills.io/) and [https://agents.md/](https://agents.md/)
