@@ -50,14 +50,19 @@ The user may invoke orchestration with these patterns:
 When starting a new project:
 
 1. Check for existing `.sdlc/manifest.yaml`
-2. If none exists:
+2. If manifest exists with incomplete init:
+   - Detect current init phase from `init_phase` field
+   - Offer to resume from that point or reinitialise
+3. If manifest exists with complete init, offer to resume or reinitialise
+4. If no manifest:
    - Ask for project name
-   - Gather project standards (paradigm, language, patterns, naming)
-   - Configure git strategy (feature-branch or trunk-based)
-   - Set checkpoint preferences
+   - Create manifest with project name and `init_phase: name_collected`
    - Run `intent` skill to clarify goals
-   - Create initial manifest with config and intent output
-3. If manifest exists, offer to resume or reinitialise
+   - Update manifest with intent output and `init_phase: intent_complete`
+   - Gather remaining technical config (language, runtime, git, run commands)
+     - Use intent's `coding_standards` as defaults for paradigm/patterns/naming
+   - Update manifest with full config and `init_phase: config_complete`
+   - Run `requirements` skill to build backlog
 
 ### Default configuration
 
@@ -84,6 +89,8 @@ project:
     - "post-code-review"
     - "post-commit"  # User tests before next story
 ```
+
+**Note:** The `standards.paradigm`, `standards.patterns`, `standards.forbidden`, and `standards.naming` fields may be populated from intent output's `coding_standards`. Only prompt for these if intent did not capture them.
 
 ## Story cycle execution
 
@@ -227,7 +234,11 @@ Update manifest after each phase:
 
 ```yaml
 manifest:
-  project: {}           # Project config
+  project:
+    name: "project-name"
+    init_phase: "config_complete"  # name_collected | intent_complete | config_complete
+    standards: {}
+    # ... rest of config
   intent: {}            # Intent skill output
   backlog: []           # Prioritised story list
   current_story: null   # Active story ID
