@@ -179,56 +179,16 @@ Approve to continue? [y/n]
 
 ## User testing (post-commit checkpoint)
 
-**IMPORTANT:** After committing a story, ALWAYS prompt the user to manually test the functionality before proceeding to the next story.
+**IMPORTANT:** After committing a story, ALWAYS invoke the `user-test` skill before proceeding to commit:pr.
 
-### Why this matters
+The user-test skill reformats the `manual_test_script` from code-review into the user's preferred format (human checklist or agent prose), presents it for testing, and records pass/fail results. See `skills/user-test/SKILL.md` for details.
 
-- Automated tests verify code correctness, not usability
-- Integration issues only surface when running the real system
-- Config problems (API keys, credentials) are caught early
-- User gains confidence the feature actually works
+Pass to user-test:
+- `manual_test_script` from code-review output
+- Story ID and title
+- Project run config
 
-### User test prompt format
-
-```
-## Story complete: {id} - {title}
-
-### What was implemented
-- {brief summary of functionality}
-
-### Test it now
-
-{Provide specific commands or steps to test the feature}
-
-Example:
-```
-./brain config
-./brain config get anthropic.model
-./brain config set anthropic.model claude-3-haiku
-```
-
-### Verify
-- [ ] Feature works as expected
-- [ ] No errors or unexpected behaviour
-
-**Please test now.** Ready to continue to next story? [y/n]
-```
-
-### What to test
-
-For each story type, suggest appropriate tests:
-
-- **CLI commands**: Run the command with various inputs
-- **API integrations**: Verify connection works with real credentials
-- **Data storage**: Check data is persisted correctly
-- **Background processes**: Start and verify it runs
-
-### If testing reveals issues
-
-1. Do NOT proceed to next story
-2. Fix the issue in the current story
-3. Re-run tests (automated and manual)
-4. Re-prompt user to verify fix
+Do not advance to commit:pr until user-test returns a passing verdict. If any scenario fails, return to implement.
 
 ## Failure handling
 
