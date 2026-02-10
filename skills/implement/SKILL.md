@@ -138,6 +138,23 @@ Test Suites: 1 passed, 1 total
 Tests:       12 passed, 12 total
 ```
 
+### 8. Database migrations (if applicable)
+
+If the feature requires schema changes to make tests pass:
+
+1. Create migration file using the project's migration framework
+2. Create corresponding rollback (down) migration
+3. Apply migration to dev database
+4. Verify schema matches implementation expectations
+5. Record migration files in output
+
+Migrations are implementation detail — they exist to make tests pass. They are NOT a separate phase.
+
+If migration fails:
+1. Roll back the migration
+2. Fix the migration file
+3. Re-apply and re-verify
+
 ## Implementation guidelines
 
 ### Write minimal code
@@ -197,6 +214,15 @@ implement:
     failed: 0
     status: "green"  # Required
 
+  migrations:
+    created: true  # or false if no schema changes needed
+    files:
+      - path: "migrations/20240115_add_users_table.sql"
+        direction: "up"
+      - path: "migrations/20240115_add_users_table_down.sql"
+        direction: "down"
+    dev_db_verified: true
+
   notes: ""
 ```
 
@@ -216,6 +242,8 @@ stories:
 - [ ] No skipped or pending tests
 - [ ] Code compiles without warnings
 - [ ] No runtime errors in test execution
+- [ ] If migrations exist: dev DB schema verified after migration
+- [ ] If migrations exist: rollback migration file exists
 
 ## Troubleshooting
 

@@ -1,291 +1,160 @@
 ---
 name: feature
-description: Implement a feature in an existing codebase. Streamlined entry point that bypasses intent/requirements phases and focuses on rapid delivery. Use when you have a specific feature to build.
+description: Implement a feature using TDD. Works standalone (user describes what to build) or as part of the orchestrated pipeline (story and context provided). Handles complexity scaling, design, stubs, tests, implementation, migrations, refactoring, and review. Use when building a feature in an existing codebase.
 ---
 
 # Feature
 
-Implement a feature in an existing codebase with a streamlined workflow.
+Implement a feature using test-driven development with complexity-appropriate workflow.
 
-## Purpose
+## Modes
 
-This skill provides a fast path for implementing features in existing codebases:
-- Bypasses intent/requirements phases
-- Surveys codebase to understand conventions
-- Scales complexity handling based on feature size
-- Delivers working, tested code ready to commit
+This skill operates in two modes depending on how it's invoked:
 
-## Workflow
+### Standalone mode
 
-```
-capture request → understand codebase → lightweight design → implement + test → review → commit
-```
+When a user invokes this skill directly (e.g., `/feature`), the skill:
+1. Captures the feature request
+2. Surveys the codebase for patterns and conventions
+3. Assesses complexity to choose the right workflow
+4. Executes the appropriate workflow (direct or TDD cycle)
 
-## Process
+### Pipeline mode
 
-### 0. Git setup
+When orchestrate invokes this skill for a story, context is already provided:
+- Story ID, spec, design, standards, and branch are known
+- Skip capture, survey, and complexity assessment
+- Execute the TDD cycle directly from stubs onward
+- Read configuration from manifest
 
-Before making any code changes, ensure you're on a feature branch:
-
-1. **Check current branch:**
-   - If on `main` or `master`, create a feature branch first
-   - If already on a feature branch, proceed
-
-2. **Create feature branch (if needed):**
-   - Use `commit branch` subcommand to create and switch to a new branch
-   - Branch name should reflect the feature (e.g., `feat/add-logout-button`)
-
-This assumes a feature-branch workflow where:
-- Changes are developed on feature branches
-- PRs are opened for review before merging
-- Main branch stays stable
-
-For solo projects where you commit directly to main, skip this step.
+## Standalone Workflow
 
 ### 1. Capture request
 
-Gather minimal information about the feature:
+Gather minimal information:
 
 **Required:**
-- What to build (1-3 sentences describing the feature)
+- What to build (1-3 sentences)
 
 **Optional (can be inferred):**
-- Where it should integrate (module, file, component)
-- Constraints (performance, compatibility, dependencies)
-- Acceptance criteria (how to verify it works)
+- Where it integrates (module, file, component)
+- Constraints (performance, compatibility)
+- Acceptance criteria
 
-```yaml
-feature_request:
-  description: "Add a logout button to the user menu that clears the session"
-  integration_point: "src/components/UserMenu.tsx"  # optional
-  constraints: []  # optional
-  acceptance_criteria:  # optional
-    - "Button visible when user is logged in"
-    - "Clicking clears session and redirects to login"
-```
+If the user hasn't provided enough detail, ask brief clarifying questions.
 
-If the user hasn't provided enough detail, ask brief clarifying questions. Avoid lengthy requirements gathering.
+### 2. Survey codebase
 
-### 2. Understand codebase
+Understand the project before writing code:
 
-Survey the project to understand conventions:
+1. **Read project docs:** AGENTS.md or README for overview, documented patterns, testing approach
+2. **Scan structure:** Relevant directories, related modules, architecture pattern
+3. **Study existing patterns:** How similar features are implemented, naming, error handling, test patterns
 
-1. **Read project docs:**
-   - AGENTS.md or README for project overview
-   - Check for documented patterns and conventions
-   - Note testing approach and tools
+### 3. Git setup
 
-2. **Scan structure:**
-   - Identify relevant directories
-   - Find related modules and components
-   - Understand the architecture pattern in use
+Before making code changes, ensure you're on a feature branch:
 
-3. **Study existing patterns:**
-   - How similar features are implemented
-   - Naming conventions in practice
-   - Error handling approach
-   - Test patterns used
+- If on `main`/`master`: create a feature branch using `commit branch`
+- If already on a feature branch: proceed
+- For solo projects committing directly to main: skip this step
 
-```yaml
-codebase_context:
-  architecture: "React + Redux, component-based"
-  related_modules:
-    - "src/components/UserMenu.tsx"
-    - "src/store/authSlice.ts"
-    - "src/hooks/useAuth.ts"
-  patterns:
-    - "Functional components with hooks"
-    - "Redux Toolkit for state"
-    - "Jest + RTL for testing"
-  conventions:
-    naming: "camelCase functions, PascalCase components"
-    testing: "Co-located test files (*.test.tsx)"
-```
-
-### 3. Assess complexity
-
-Determine feature size to choose appropriate workflow:
+### 4. Assess complexity
 
 | Size | Criteria | Workflow |
 |------|----------|----------|
-| **S** (Small) | Single file change, <50 lines, isolated | Direct implementation |
-| **M** (Medium) | 2-5 files, clear scope, follows patterns | Lightweight design first |
-| **L** (Large) | 5+ files, new patterns, architectural impact | Full pipeline |
+| **S** | Single file, <50 lines, isolated | Direct implementation |
+| **M** | 2-5 files, clear scope, follows patterns | TDD cycle with lightweight design |
+| **L** | 5+ files, new patterns, architectural impact | TDD cycle with full design + review |
 
-```yaml
-complexity:
-  size: "M"
-  rationale: "Touches 3 files (component, store, hook), follows existing patterns"
-  files_affected:
-    - "src/components/UserMenu.tsx"
-    - "src/store/authSlice.ts"
-    - "src/hooks/useAuth.ts"
+### 5. Execute workflow
+
+#### Small (S) — Direct implementation
+
+```
+implement + test → quick review → commit
 ```
 
-### 4. Design (M and L only)
-
-For medium and large features, create a brief design plan:
-
-```yaml
-design:
-  approach: "Add logout action to auth slice, expose via useAuth hook, add button to UserMenu"
-  components:
-    - name: "logout action"
-      location: "src/store/authSlice.ts"
-      changes: "Add logout reducer that clears user state"
-    - name: "useAuth hook"
-      location: "src/hooks/useAuth.ts"
-      changes: "Expose logout function"
-    - name: "UserMenu"
-      location: "src/components/UserMenu.tsx"
-      changes: "Add logout button that calls useAuth().logout()"
-  integration:
-    - "Button triggers logout action"
-    - "Logout clears Redux state"
-    - "Router redirects to /login"
-  risks: []
-```
-
-For large features, delegate to full pipeline:
-```
-invoke: design → stubs → test → implement → refactor → code-review
-```
-
-### 5. Implement
-
-Write the code following existing patterns:
-
-**For small features:**
 - Write implementation and tests together
-- Keep changes minimal and focused
-
-**For medium features:**
-- Implement component by component
-- Write tests as you go
-- Run tests frequently
-
-**For large features:**
-- Follow TDD: stubs → tests (red) → implement (green) → refactor
-- Use the dedicated phase skills
-
-```yaml
-implementation:
-  files_modified:
-    - path: "src/store/authSlice.ts"
-      changes: "Added logout action"
-    - path: "src/hooks/useAuth.ts"
-      changes: "Exposed logout from hook"
-    - path: "src/components/UserMenu.tsx"
-      changes: "Added logout button"
-  files_created: []
-  tests_added:
-    - "src/components/UserMenu.test.tsx"
-  test_result:
-    passed: 5
-    failed: 0
-```
-
-### 6. Review
-
-Perform abbreviated quality check:
-
-```yaml
-review:
-  code_quality:
-    - "Follows existing patterns": "pass"
-    - "No unnecessary complexity": "pass"
-    - "Error handling appropriate": "pass"
-  security:
-    - "No secrets exposed": "pass"
-    - "Input validated": "pass"
-  standards:
-    - "Naming conventions": "pass"
-    - "Code style consistent": "pass"
-  tests:
-    - "Key paths covered": "pass"
-    - "Tests pass": "pass"
-  issues: []
-  verdict: "approved"
-```
-
-If issues found, fix before proceeding.
-
-### 7. Commit
-
-Create a conventional commit:
-
-```bash
-git add <files>
-git commit -m "feat(auth): add logout button to user menu
-
-- Add logout action to auth slice
-- Expose logout via useAuth hook
-- Add logout button to UserMenu component
-- Add tests for logout functionality"
-```
-
-## Output
-
-```yaml
-feature:
-  request: "Add logout button to user menu"
-  complexity: "M"
-
-  codebase_survey:
-    architecture: "React + Redux"
-    related_modules: [...]
-    patterns: [...]
-
-  design:
-    approach: "..."
-    components: [...]
-
-  implementation:
-    files_modified: [...]
-    files_created: [...]
-    tests_added: [...]
-    test_result: { passed: 5, failed: 0 }
-
-  review:
-    verdict: "approved"
-    issues: []
-
-  commit:
-    hash: "abc123"
-    message: "feat(auth): add logout button to user menu"
-```
-
-## Complexity handling
-
-### Small (S) - Direct implementation
-
-```
-request → understand → implement + test → quick review → commit
-```
-
-- Skip formal design
-- Write code and tests together
 - Brief review focused on obvious issues
+- Single commit: `feat(scope): description`
+- No TDD ceremony needed
 
-### Medium (M) - Lightweight design
+#### Medium (M) — TDD cycle with lightweight design
 
 ```
-request → understand → design brief → implement + test → review → commit
+lightweight design → stubs → RED → GREEN → refactor → review → PR
 ```
 
-- Quick design document (not saved to .sdlc/)
-- Implement following the plan
+- Quick design plan (not saved to `.sdlc/`)
+- Follow the TDD cycle defined in [references/tdd-cycle.md](references/tdd-cycle.md)
+- Three commits (red, green, refactor)
 - Standard review
 
-### Large (L) - Full pipeline
+#### Large (L) — TDD cycle with full design + review
 
 ```
-request → understand → invoke full pipeline
+design → design-review → stubs → RED → GREEN → refactor → review → PR
 ```
 
-Delegate to orchestrated flow:
-1. Create story in backlog
-2. Run: design → design-review → stubs → test → implement → refactor → code-review → commit
+- Full design document with design review checkpoint
+- Follow the TDD cycle defined in [references/tdd-cycle.md](references/tdd-cycle.md)
+- Three commits (red, green, refactor)
+- Full review with fresh context
+
+## Pipeline Workflow
+
+When invoked by orchestrate with story context:
+
+1. Read story spec, design, and standards from provided context
+2. Execute the TDD cycle directly: stubs → RED → GREEN → refactor → review → PR
+3. Follow all gate conditions, artifact flow, and commit strategy from [references/tdd-cycle.md](references/tdd-cycle.md)
+4. Report artifacts and gate results back to orchestrate for manifest update
+
+### Pipeline input
+
+Expect from orchestrate:
+- Story ID and acceptance criteria
+- Design document (architecture, components, interfaces)
+- Project standards (paradigm, patterns, naming)
+- Branch (already created by `commit:branch`)
+- Configuration from manifest
+
+### Pipeline output
+
+Report back to orchestrate:
+- Files created/modified (stubs, tests, implementation, migrations)
+- Gate results (red_verified, green_verified, refactor_verified, review_approved)
+- Review verdict and comments
+- Commit SHAs for each of the three commits
+
+## Configuration
+
+When a manifest exists, read from it:
+
+```yaml
+feature_cycle:
+  tdd:
+    strict: true
+    test_runner: "pytest"
+  migrations:
+    enabled: true
+    framework: "alembic"
+    require_rollback: true
+  review:
+    fresh_context: true
+    require_human_approval: true
+  commits:
+    conventional: true
+    sign: false
+```
+
+When no manifest exists, use sensible defaults:
+- Detect test runner from project files (package.json, pyproject.toml, go.mod, etc.)
+- Detect migration framework from project files if present
+- Default to conventional commits
+- Default to requiring human approval for review
+- Default to fresh context for review
 
 ## Tips
 
@@ -295,3 +164,4 @@ Delegate to orchestrated flow:
 - Keep changes focused on the requested feature
 - If scope grows beyond initial estimate, reassess complexity
 - When in doubt, ask a clarifying question rather than assume
+- For standalone mode, S-size features should be fast and lightweight — don't over-engineer

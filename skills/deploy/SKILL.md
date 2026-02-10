@@ -116,15 +116,37 @@ rsync -avz dist/ user@server:/var/www/app/
 ssh user@server 'sudo systemctl restart app'
 ```
 
-### 5. Run database migrations (if applicable)
+### 5. Database migrations (if applicable)
 
-```bash
-# Run pending migrations
-npm run db:migrate
+If the story artifacts include migration files:
 
-# Verify migration status
-npm run db:status
-```
+1. **Validate**: Dry-run migration against staging/production-like environment
+   ```bash
+   npm run db:migrate:dry-run
+   ```
+
+2. **Human approval**: Present migration plan for explicit approval
+   - Show: tables affected, columns added/removed, data transformations
+   - Show: rollback plan
+   - This is a mandatory human-in-the-loop checkpoint
+
+3. **Apply**: Run migration against production
+   ```bash
+   npm run db:migrate
+   ```
+
+4. **Verify**: Confirm schema is correct
+   ```bash
+   npm run db:status
+   ```
+
+5. **On failure**: Execute rollback migration immediately
+   ```bash
+   npm run db:migrate:rollback
+   ```
+   Then halt deployment and escalate.
+
+**Critical**: Production migrations must be applied AFTER merge and DURING deployment, never before merge. Applying migrations before merge creates a window where production schema doesn't match running code.
 
 ### 6. Verify deployment
 

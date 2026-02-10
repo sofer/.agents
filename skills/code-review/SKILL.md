@@ -16,6 +16,16 @@ Code review validates that implementation:
 - Contains no security vulnerabilities
 - Is maintainable and readable
 
+## Pipeline context isolation
+
+When invoked as part of the orchestrated story cycle, this skill should run with **fresh context** — a new agent invocation that receives:
+
+- Diff since branch point (not the full implementation files)
+- Spec/acceptance criteria
+- Coding standards
+
+It should NOT receive the implementation conversation history. This creates genuine "second reviewer" behaviour where the reviewer assesses the code without the implementer's assumptions.
+
 ## Input
 
 Expect from orchestrator:
@@ -204,6 +214,27 @@ runnability:
 - A story is not complete if users cannot exercise the functionality
 - Catches missing executable permissions, missing shebangs, path issues
 
+### 8. Migration safety (if applicable)
+
+```yaml
+migration_safety:
+  - item: "Migration is reversible"
+    status: "pass | fail | n/a"
+    notes: ""
+
+  - item: "Rollback migration exists"
+    status: "pass | fail | n/a"
+    notes: ""
+
+  - item: "No data loss in migration"
+    status: "pass | fail | n/a"
+    notes: ""
+
+  - item: "Migration is idempotent or guarded"
+    status: "pass | fail | n/a"
+    notes: ""
+```
+
 ## Review process
 
 1. **Load context**: Read implementation, spec, design, standards
@@ -234,6 +265,7 @@ code_review:
     standards: "4/5 passed"
     test_coverage: "4/4 passed"
     runnability: "3/3 passed"  # For CLI projects
+    migration_safety: "4/4 passed"  # If applicable
 
   issues:
     - severity: "major"
