@@ -26,7 +26,7 @@ if [ -d "$AGENTS_DIR" ]; then
   (cd "$AGENTS_DIR" && git pull --ff-only 2>/dev/null || echo "    (pull skipped - local changes)")
 else
   echo "    Cloning agents repo..."
-  git clone git@github.com:johnx25bd/.agents.git "$AGENTS_DIR"
+  git clone https://github.com/johnx25bd/.agents.git "$AGENTS_DIR"
 fi
 
 # Create ~/.claude directory if it doesn't exist
