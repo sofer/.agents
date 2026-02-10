@@ -272,6 +272,7 @@ Write code to pass all tests (green).
 - Stubs output (interfaces to implement)
 - Test output (tests to pass)
 - Design output (architecture guidance)
+- Database migration config (if migrations are enabled)
 
 ### Output
 - Implementation files
@@ -288,8 +289,26 @@ implement:
     passed: 5
     failed: 0
     status: "green"  # Required
+  migrations:
+    created: true  # or false
+    files:
+      - path: "migrations/20240115_add_users_table.sql"
+        direction: "up"
+      - path: "migrations/20240115_add_users_table_down.sql"
+        direction: "down"
+    dev_db_verified: true
   notes: ""
 ```
+
+### Note
+
+If the feature requires database schema changes, the implement phase is responsible for:
+- Creating migration files (both up and down)
+- Applying migration to dev database
+- Verifying schema after migration
+- Recording migration files in story artifacts
+
+Migration files are later validated by code-review and applied to production by deploy.
 
 ### Gate
 All tests must pass (100%) before proceeding to refactor.
@@ -369,6 +388,18 @@ code_review:
 ### Checkpoint
 Post-code-review: Must be approved before committing.
 
+### Note
+
+When invoked as part of the story cycle pipeline, code-review should run with fresh context:
+- Receives: diff since branch point, spec/acceptance criteria, coding standards
+- Does NOT receive: implementation conversation history
+- This creates genuine "second reviewer" behaviour
+
+If migrations exist in the story artifacts, code-review should also assess:
+- Migration safety (reversible, no data loss)
+- Migration correctness (schema matches implementation expectations)
+- Rollback migration exists and is valid
+
 ---
 
 ## commit
@@ -418,6 +449,19 @@ Merge PR (when approved).
 **Output:**
 - PR merged, branch cleaned up
 
+### Story cycle commit strategy
+
+When used within the orchestrated story cycle, commit is invoked three times per story:
+
+1. After RED phase: `feat(story-id): define interface and test cases`
+   - Includes: stub files + test files
+2. After GREEN phase: `feat(story-id): implement to pass tests`
+   - Includes: implementation files + migration files (if any)
+3. After REFACTOR phase: `refactor(story-id): improve structure`
+   - Includes: refactored files only
+
+Each commit uses `commit:commit` subcommand. The orchestrator provides the commit message.
+
 ---
 
 ## deploy
@@ -428,6 +472,7 @@ Ship to target environment.
 - Build artifacts
 - Deployment configuration
 - Target environment
+- Migration files from story artifacts (if any)
 
 ### Output
 ```yaml
@@ -439,8 +484,23 @@ deploy:
   artifacts:
     - name: "artifact-name"
       location: "registry/path"
+  migrations:
+    applied: true
+    files: ["migrations/20240115_add_users_table.sql"]
+    verified: true
+    rollback_tested: true
   notes: ""
 ```
+
+### Database migrations (if applicable)
+
+1. Validate migration files (dry-run against production-like environment)
+2. Present migration plan to user for approval (human-in-the-loop required)
+3. Apply migrations to production
+4. Verify schema post-migration
+5. If migration fails: execute rollback migration, halt deployment
+
+Production migration approval is always a human-in-the-loop checkpoint.
 
 ---
 

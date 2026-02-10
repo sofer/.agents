@@ -14,7 +14,7 @@ Coordinate the full software development lifecycle through a structured pipeline
 intent → requirements (produces backlog)
 
 [Story cycle - iterative per story]
-commit:branch → spec → design → design-review → stubs → test → implement → refactor → code-review → commit:commit → user-test → commit:pr → commit:merge
+commit:branch → spec → design → design-review → stubs → test → commit:commit(red) → implement → commit:commit(green) → refactor → code-review → commit:commit(refactor) → user-test → commit:pr → commit:merge
 
 [Release]
 deploy → monitor (feedback → backlog)
@@ -34,6 +34,10 @@ Store manifest at `.sdlc/manifest.yaml` in the project root. Create the director
 6. **Handle failures** - Retry, rollback, or escalate as appropriate
 7. **Pause at checkpoints** - Await human approval at configured points
 8. **Log decisions** - Record choices and rationale to manifest
+9. **Enforce gate conditions** - Do not advance to next phase if gate condition fails; follow rollback handling in `skills/feature/references/tdd-cycle.md`
+10. **Track gate results** - Record gate pass/fail in manifest per story
+11. **Fresh context for review** - Spawn code-review with a new agent invocation receiving only the diff, spec, and standards (not the implementation conversation)
+12. **Pass artifacts by reference** - Between skills, pass file paths and summary documents, not full file contents
 
 ## Commands
 
@@ -96,31 +100,39 @@ project:
 
 For each story:
 
-1. **commit:branch** - Create feature branch following git strategy
-2. **spec** - Define contracts, schemas, behaviours
-3. **design** - Plan architecture and components
-4. **design-review** - Validate design against standards (checkpoint)
-5. **stubs** - Create interfaces and types (compiles, not implemented)
-6. **test** - Write tests against stubs (expect 0% pass)
-7. **implement** - Write code to pass tests (expect 100% pass)
-8. **refactor** - Clean up while tests stay green
-9. **code-review** - Check quality and standards (checkpoint)
-10. **commit:commit** - Commit changes with conventional message
-11. **user-test** - User manually tests the functionality (checkpoint)
-12. **commit:pr** - Create pull request
-13. **commit:merge** - Merge when approved
+1. **commit:branch** — Create feature branch
+2. **spec** — Define contracts, schemas, behaviours
+3. **design** — Plan architecture and components
+4. **design-review** — Validate design (checkpoint)
+5. **stubs** — Create interfaces and types
+6. **test** — Write failing tests (RED)
+7. **commit:commit(red)** — Commit stubs + tests: "feat(story-id): define interface and test cases"
+8. **implement** — Write code to pass tests, create migrations if needed (GREEN)
+9. **commit:commit(green)** — Commit implementation + migrations: "feat(story-id): implement to pass tests"
+10. **refactor** — Clean up while tests stay green
+11. **code-review** — Review with fresh context (checkpoint)
+12. **commit:commit(refactor)** — Commit refactored code: "refactor(story-id): improve structure"
+13. **user-test** — User manually tests functionality (checkpoint)
+14. **commit:pr** — Create pull request
+15. **commit:merge** — Merge when approved
+
+For detailed TDD cycle execution (artifact flow, gate conditions, commit strategy,
+migration handling, and rollback), see the feature skill's reference document at
+`skills/feature/references/tdd-cycle.md`.
 
 ### Phase gates
 
 Before advancing to next phase, verify:
 
-| Phase | Gate condition |
-|-------|----------------|
-| stubs → test | Code compiles/type-checks |
-| test → implement | Tests exist and fail as expected |
-| implement → refactor | All tests pass |
-| refactor → code-review | Tests still pass |
-| code-review → commit | Review approved or issues resolved |
+| Phase | Gate condition | On failure |
+|-------|----------------|------------|
+| stubs → test | Code compiles/type-checks | Fix stubs |
+| test → commit(red) | New tests fail, existing tests pass | Fix tests |
+| commit(red) → implement | Red commit succeeds | Resolve git issues |
+| implement → commit(green) | All tests pass (100%), dev DB verified if migrations | Continue implementing |
+| commit(green) → refactor | Green commit succeeds | Resolve git issues |
+| refactor → code-review | All tests still pass | Revert refactor, retry |
+| code-review → commit(refactor) | Review approved or issues resolved | Loop to refactor with review comments |
 
 ### Spawning phase agents
 
@@ -248,12 +260,22 @@ manifest:
       phase: "design"        # Current phase
       branch: "story/US-001-user-login"
       artifacts:
-        spec: "path/to/spec.md"
-        design: "path/to/design.md"
+        spec: ".sdlc/stories/US-001/spec.md"
+        design: ".sdlc/stories/US-001/design.md"
+        stubs: []           # file paths produced by stubs skill
+        tests: []           # file paths produced by test skill
+        implementation: []  # file paths produced by implement skill
+        migrations: []      # migration file paths (if any)
+        review_verdict: ""  # approved | changes_requested | blocked
       decisions:
         - phase: "design"
           decision: "Using event sourcing"
           rationale: "Requirement R3 needs full history"
+      gate_results:
+        red_verified: false      # new tests fail, existing pass
+        green_verified: false    # all tests pass after implementation
+        refactor_verified: false # all tests still pass after refactor
+        review_approved: false   # review verdict is "approved"
   releases: []
 ```
 
