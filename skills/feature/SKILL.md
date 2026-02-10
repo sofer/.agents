@@ -83,31 +83,33 @@ implement + test → quick review → commit
 #### Medium (M) — TDD cycle with lightweight design
 
 ```
-lightweight design → stubs → RED → GREEN → refactor → review → PR
+lightweight design → stubs → RED → GREEN → refactor → review → user-test → PR
 ```
 
 - Quick design plan (not saved to `.sdlc/`)
 - Follow the TDD cycle defined in [references/tdd-cycle.md](references/tdd-cycle.md)
 - Three commits (red, green, refactor)
 - Standard review
+- User testing before PR (see `skills/user-test/SKILL.md`)
 
 #### Large (L) — TDD cycle with full design + review
 
 ```
-design → design-review → stubs → RED → GREEN → refactor → review → PR
+design → design-review → stubs → RED → GREEN → refactor → review → user-test → PR
 ```
 
 - Full design document with design review checkpoint
 - Follow the TDD cycle defined in [references/tdd-cycle.md](references/tdd-cycle.md)
 - Three commits (red, green, refactor)
 - Full review with fresh context
+- User testing before PR (see `skills/user-test/SKILL.md`)
 
 ## Pipeline Workflow
 
 When invoked by orchestrate with story context:
 
 1. Read story spec, design, and standards from provided context
-2. Execute the TDD cycle directly: stubs → RED → GREEN → refactor → review → PR
+2. Execute the TDD cycle directly: stubs → RED → GREEN → refactor → review → user-test → PR
 3. Follow all gate conditions, artifact flow, and commit strategy from [references/tdd-cycle.md](references/tdd-cycle.md)
 4. Report artifacts and gate results back to orchestrate for manifest update
 
@@ -124,8 +126,9 @@ Expect from orchestrate:
 
 Report back to orchestrate:
 - Files created/modified (stubs, tests, implementation, migrations)
-- Gate results (red_verified, green_verified, refactor_verified, review_approved)
+- Gate results (red_verified, green_verified, refactor_verified, review_approved, user_test_passed)
 - Review verdict and comments
+- User test results (pass/fail per scenario)
 - Commit SHAs for each of the three commits
 
 ## Configuration

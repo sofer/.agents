@@ -402,6 +402,48 @@ If migrations exist in the story artifacts, code-review should also assess:
 
 ---
 
+## user-test
+
+Reformat manual test script for execution and record results. Gates progression to commit:pr.
+
+### Input
+- `manual_test_script` from code-review output (YAML: setup, scenarios with action/expect steps)
+- Story ID and title
+- Project run config (for `user_test_format` preference)
+
+### Output
+```yaml
+user_test:
+  story_id: "US-001"
+  format: "human | agent"
+  scenarios:
+    - name: "Scenario name"
+      status: "pass | fail"
+      notes: ""
+  verdict: "pass | fail"
+  tested_by: "user"
+  timestamp: "2024-01-15T10:30:00Z"
+```
+
+Stored at `.sdlc/stories/{story-id}/user-test-results.yaml`.
+
+### Formats
+
+- **human** (default): Markdown checklist with one checkbox per action/expect pair
+- **agent**: Continuous prose instructions, tool-agnostic, suitable for pasting into any AI agent
+
+### Gate
+All scenarios must pass. Any failure returns the story to implement.
+
+### Checkpoint
+Present results summary. If pass, proceed to commit:pr. If fail, return to implement with failure details.
+
+### Note
+
+If no `manual_test_script` exists in code-review output, fall back to the story's acceptance criteria to build test steps.
+
+---
+
 ## commit
 
 Git operations: branch, commit, PR, merge.
