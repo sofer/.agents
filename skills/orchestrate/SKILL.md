@@ -274,6 +274,93 @@ See [references/phase-contracts.md](references/phase-contracts.md) for detailed 
 
 - **intent** - Use as-is for project initialisation
 - **commit** - Extend to support branch/commit/pr/merge subcommands
+- **reconcile** - Use for drift detection and state synchronisation
+
+## Drift detection
+
+Before advancing to next phase or picking next story, check for divergence between manifest and reality.
+
+### When to check for drift
+
+1. **Before picking next story** - Ensure previous work is properly recorded
+2. **At phase transitions** - Verify current phase is accurate before advancing
+3. **When resuming after pause** - Catch any manual changes made outside the pipeline
+4. **On explicit `status` command** - Include drift warnings in status output
+
+### Detection triggers
+
+Check for these conditions:
+
+```
+1. Uncommitted files matching current story scope
+2. Branch doesn't match expected pattern for current_story
+3. Manifest phase contradicts file state (e.g., "design" but implementation exists)
+4. Stale branches from completed stories
+5. Artifacts referenced in manifest that don't exist
+```
+
+### Integration workflow
+
+```
+[Pipeline action requested]
+       │
+       ▼
+[Check for drift]
+       │
+       ├── No drift → Continue pipeline
+       │
+       └── Drift detected
+              │
+              ▼
+       [Pause pipeline]
+              │
+              ▼
+       [Invoke /reconcile --report]
+              │
+              ▼
+       [Present findings to user]
+              │
+              ▼
+       [Offer choices]
+              │
+              ├── Apply corrections → Run reconcile
+              │
+              ├── Continue anyway → Resume pipeline
+              │
+              └── Abort → Stop and investigate
+```
+
+### Example drift handling
+
+When drift is detected before picking next story:
+
+```markdown
+## Drift detected
+
+Before picking the next story, reconciliation found issues:
+
+### Divergences
+
+- **Phase drift** (US-004): Manifest says "design", but implementation files exist
+- **Uncommitted files**: scoring.py, triage.py, writeback.py
+- **Stale branch**: story/US-003-match-gmail-correspondence (merged)
+
+### Options
+
+1. **Reconcile first** - Fix divergences before continuing
+2. **Continue anyway** - Pick next story despite drift
+3. **Investigate** - Pause to manually review state
+
+Which would you like to do?
+```
+
+### Severity thresholds
+
+| Severity | Action |
+|----------|--------|
+| High (uncommitted implementation, status mismatch) | Block pipeline, require reconcile |
+| Medium (phase drift, branch mismatch) | Warn, offer to reconcile |
+| Low (stale branches, orphan artifacts) | Note in status, continue |
 
 ## Notes
 
