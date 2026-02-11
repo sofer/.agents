@@ -191,6 +191,17 @@
           }
         ]
       }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.agents/claude/hooks/notify.sh"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
