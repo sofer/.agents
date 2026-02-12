@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Git workflow operations with Conventional Commits. Supports subcommands - branch (create feature branch), commit (stage and commit changes), pr (create pull request), merge (merge PR). Use when user needs git operations during development workflow.
+description: Git workflow operations with Conventional Commits. Supports subcommands - branch (create feature branch), commit (stage and commit changes), pr (create pull request), merge (merge PR). Automatically available when the current directory is a git repository. Use when user needs git operations during development workflow.
 ---
 
 # Git workflow
@@ -86,6 +86,7 @@ Stage changes and create commit with Conventional Commits format.
 2. Stage changes (if not already staged):
    - Ask user which files to stage, or
    - Stage all with `git add -A` if user confirms
+   - **Never stage user-test artifacts** (formatted test scripts, `.sdlc/stories/*/user-test-results.yaml`). These are pipeline-internal files and must not be committed. If staged accidentally, unstage them before committing.
 
 3. Determine commit type from changes:
    - **feat**: New features
@@ -140,12 +141,16 @@ Create a pull request for the current branch.
    git push -u origin HEAD
    ```
 
-2. Gather PR context:
+2. Verify no user-test artifacts are committed:
+   - Check that no `.sdlc/stories/*/user-test-results.yaml` or formatted test script files are in the commit history
+   - If found, remove them from tracking before pushing
+
+3. Gather PR context:
    - Story ID and title (from manifest or branch name)
    - Summary of changes (from commits)
    - Acceptance criteria (from story)
 
-3. Generate PR description:
+4. Generate PR description:
    ```markdown
    ## Summary
    Brief description of what this PR does.
@@ -165,10 +170,12 @@ Create a pull request for the current branch.
 
    ## Testing
    - Unit tests added and passing
-   - Manual testing completed
+   - User testing passed
    ```
 
-4. Create PR:
+   **Do not include** manual test scripts, formatted test scenarios, or user-test result details in the PR description. The Testing section should only confirm that tests passed, not reproduce test content.
+
+5. Create PR:
    ```bash
    gh pr create --title "feat(user): add registration (US-001)" --body "..."
    ```

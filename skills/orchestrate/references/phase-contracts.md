@@ -477,6 +477,11 @@ Create pull request.
 - Branch name
 - Story details
 - Summary of changes
+- User-test verdict (pass/fail only, not the full test script)
+
+**Exclusions:**
+- Do NOT include manual test scripts, formatted test scenarios, or user-test result file contents in the PR description or commits
+- Do NOT stage `.sdlc/stories/*/user-test-results.yaml` or formatted test script files
 
 **Output:**
 - PR created with description linking to story
