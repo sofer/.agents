@@ -1,0 +1,61 @@
+terms:
+  - term: "KSBs"
+    definition: "Knowledge, Skills, and Behaviours — the competencies defined in an apprenticeship standard that apprentices must demonstrate"
+    usage_note: "Always capitalised. Referenced in training plans and EPA."
+
+  - term: "EPA"
+    definition: "End-Point Assessment — the final assessment at the end of an apprenticeship, conducted by an independent body"
+    usage_note: "Apprentices prepare projects and portfolio evidence for EPA submission."
+
+  - term: "EPAO"
+    definition: "End-Point Assessment Organisation — the independent body that conducts EPA. Founders and Coders uses BCS."
+    usage_note: "BCS is our chosen EPAO."
+
+  - term: "Apprenticeship levy"
+    definition: "A tax on UK employers with a pay bill over £3 million. Levy funds can be used to pay for apprenticeship training. Non-levy employers can receive levy transfers."
+    usage_note: "The ML apprenticeship is levy-funded, making it free to learners."
+
+  - term: "Levy transfer"
+    definition: "When a levy-paying employer transfers unused levy funds to another employer to fund their apprenticeship training"
+    usage_note: "Important funding mechanism for SMEs wanting to put staff on the ML apprenticeship."
+
+  - term: "OTJ"
+    definition: "Off-the-job training — the learning that takes place outside the apprentice's normal working duties, a mandatory component of any apprenticeship"
+    usage_note: "Minimum 418 hours of recorded learning time required."
+
+  - term: "Peer-led learning"
+    definition: "Founders and Coders' training model where learners teach and support each other, facilitated by staff rather than lectured at"
+    usage_note: "Core differentiator. Not self-directed — it's structured collaboration."
+
+  - term: "Training plan"
+    definition: "A personalised plan created with input from employer, apprentice, and Founders and Coders, outlining the apprenticeship structure and goals"
+
+  - term: "Tripartite review"
+    definition: "Quarterly meeting bringing together the employer, the apprentice, and the Founders and Coders Relationships Lead to discuss progress, blockers, and goals"
+
+  - term: "Skills Bootcamp"
+    definition: "DfE-funded short training programme. Founders and Coders runs a 12-week Software Foundation Skills Bootcamp as a pathway into apprenticeships"
+
+  - term: "CIC"
+    definition: "Community Interest Company — the legal form of Founders and Coders. A type of company designed for social enterprises."
+
+  - term: "RAG"
+    definition: "Retrieval-Augmented Generation — a technique combining search/retrieval with LLM generation. A key topic in the ML apprenticeship curriculum."
+    usage_note: "Used in the AI Product Engineering pillar."
+
+  - term: "MCP"
+    definition: "Model Context Protocol — an open protocol for connecting AI agents to external tools and data sources. Taught in the ML apprenticeship."
+    usage_note: "Also used internally for agent integrations (Notion, Gmail, etc.)."
+
+  - term: "Foundation model"
+    definition: "A large pre-trained AI model (like GPT, Claude, Llama) that can be adapted for specific tasks. Central to the AI Product Engineering pillar."
+
+  - term: "ST1398"
+    definition: "The apprenticeship standard reference number for the Level 6 Machine Learning Engineer standard"
+    usage_note: "Published by Skills England (formerly IfATE)."
+
+  - term: "Dingley Place"
+    definition: "The City Road campus where ML programmes are delivered"
+
+  - term: "FAC"
+    definition: "Founders and Coders — common abbreviation used internally and by the community"

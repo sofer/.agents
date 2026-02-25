@@ -1,0 +1,57 @@
+offerings:
+  - name: "Level 6 Machine Learning Engineer Apprenticeship"
+    description: |
+      A year-long apprenticeship for experienced software engineers
+      transitioning into machine learning and AI engineering roles.
+      Weekly in-person workshops at Dingley Place, built around
+      hands-on micro-projects of increasing complexity.
+    audience: "Experienced software engineers with several years of development experience who want to build production AI systems"
+    usps:
+      - "Apply it next week — every workshop teaches production-ready patterns, not academic exercises"
+      - "Build, don't lecture — majority of time spent writing code, not listening to presentations"
+      - "Respond to the field — curriculum moves with the rapidly evolving AI landscape"
+      - "Peer-led learning model with motivated peers (both founders and engineers)"
+      - "Free to learners — funded through apprenticeship levy"
+      - "Helps developers avoid being forced out of the industry as software development becomes increasingly mediated through AI"
+    details:
+      level: "Level 6"
+      standard: "ST1398 Machine Learning Engineer"
+      duration: "12 months"
+      format: "Weekly in-person workshops (two 90-minute sessions per day)"
+      location: "Dingley Place, City Road, London"
+      cost_to_learner: "Free (apprenticeship levy funded)"
+      curriculum_pillars:
+        - "AI Product Engineering — ship production features using foundation models"
+        - "Machine Learning — build ML models from first principles in PyTorch"
+        - "Machine Learning System Design — containerise, orchestrate and manage models at scale"
+        - "AI-Accelerated Software Development — use AI to build software more effectively"
+      also_open_to: "Founders on PAYE with a separate identifiable line manager"
+
+  - name: "Level 4 Software Developer Apprenticeship"
+    description: |
+      Apprenticeship training for software developers, including a
+      front-loaded 12-week full-time training block with increasingly
+      complex group projects.
+    audience: "Career changers and new entrants to software development"
+    usps:
+      - "Peer-led learning model"
+      - "Free 12-week Software Foundation Skills Bootcamp as entry point"
+      - "Nearly 1,000 hours of learning by completion, including 500 hours before meeting employer"
+      - "Diverse intake: 45% women/trans/non-binary, 80% non-white-British ethnic backgrounds, ages 19-55"
+    details:
+      level: "Level 4"
+      format: "In-person three days per week"
+      location: "Finsbury Park, London"
+      cost_to_learner: "Free"
+
+  - name: "Software Foundation Skills Bootcamp"
+    description: |
+      Free 12-week part-time bootcamp that can lead to the Level 4
+      Software Development or DevOps Apprenticeship.
+    audience: "People looking to enter the tech industry"
+    usps:
+      - "Free, DfE-funded"
+      - "Gateway to apprenticeship programmes"
+    details:
+      duration: "12 weeks part-time"
+      cost_to_learner: "Free"

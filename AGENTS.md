@@ -23,6 +23,7 @@ Remove any such content if it already exists.
 
 Default: feature-branch strategy
 
+- Always use the `commit` skill for git operations (commit, branch, PR, merge)
 - Create feature branch before implementing changes
 - Open PR for review before merging to main
 - Squash merge to keep history clean
@@ -30,6 +31,12 @@ Default: feature-branch strategy
 ## Response behaviour
 
 When a user provides input, review available skills first to identify relevant capabilities before responding. Do not immediately default to system behaviours (such as asking clarifying questions) when a skill may be more appropriate.
+
+## Agent resources directory
+
+`~/.agents/` contains shared agent configuration:
+
+- `hooks/pre-commit-review.sh` — pre-commit code review hook (symlinked into the agent's global hooks directory)
 
 ## Standards
 

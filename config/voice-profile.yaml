@@ -1,0 +1,23 @@
+tone:
+  - "direct"
+  - "warm"
+  - "concise"
+  - "conversational"
+
+language: "British English"
+
+rules:
+  - "Use first names"
+  - "Keep emails short — under 200 words where possible"
+  - "Avoid jargon — use plain language"
+  - "Be direct but polite"
+  - "Get to the point in the first sentence"
+  - "British English spellings and style"
+
+avoid:
+  - "Corporate jargon and buzzwords"
+  - "Passive voice"
+  - "Filler phrases ('I hope this email finds you well', 'just following up', 'per my last email')"
+  - "Emojis in professional emails"
+  - "Overly formal sign-offs ('Kind regards', 'Yours sincerely')"
+  - "Exclamation marks (use sparingly if at all)"

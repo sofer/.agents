@@ -1,1 +1,6 @@
 .DS_Store
+.env
+*.json
+!package.json
+!tsconfig.json
+config/business-context/contacts.yaml

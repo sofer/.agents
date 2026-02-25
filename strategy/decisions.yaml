@@ -1,0 +1,28 @@
+# Strategic decisions
+#
+# Record decisions that should constrain future strategy runs.
+# The distribution-strategist twin reads this file and treats
+# active decisions as constraints when generating new plans.
+#
+# Status: active | revisit | superseded
+
+decisions:
+  - date: "2026-02-25"
+    decision: "Workshop is the primary conversion mechanism. All distribution activities exist to feed qualified people into workshops. Personal presence at workshops (researching, greeting, following up) is the operator's highest-value activity. Everything else delegated or automated."
+    rationale: "Cohort 1 was 100% community referrals. Website produced 0 conversions for cohort 1, only 3 for cohort 2 (1 via workshop). Community source has ~half-life per cohort, 2-3 cohorts before spent. Partner/employer referrals (4 this cohort) most scalable replacement."
+    status: active
+    revisit_date: "2026-06-01"
+
+  - date: "2026-02-25"
+    decision: "Two parallel funnels: candidate funnel (developers → website → qualify → nurture → workshop → application) and employer funnel (L&D/engineering leads → educate on levy → place employees). Paid ads targeting both candidates and employers expected to become the most significant reach source as community depletes. Employer marketing materials needed: FAQ page and slide deck."
+    rationale: "Community source depleting at ~half-life per cohort. Employer/partner source (4 this cohort) expected to grow, not deplete — one employer can place multiple apprentices across cohorts. Paid ads viable given unit economics (£22k per apprentice). Targeting both sides of the market because candidate without employer buy-in is stuck, and employer without candidate needs matching."
+    status: active
+    revisit_date: "2026-06-01"
+
+# Example entry:
+#
+# - date: "2026-02-25"
+#   decision: "Focus on bottom-of-funnel conversion over top-of-funnel awareness"
+#   rationale: "Workshops are oversubscribed; the bottleneck is converting attendees to applicants"
+#   status: active
+#   revisit_date: "2026-05-01"
