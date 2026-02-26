@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Review code for quality, security, and standards compliance. Works as a pipeline gate after refactor phase, or standalone against PR URLs, branch names, commit ranges, or file lists.
+description: Review code for quality, security, and standards compliance. Works as a pipeline gate after refactor phase, or standalone against PR URLs, branch names, commit ranges, or file lists. Can optionally post review comments directly to GitHub PRs.
 ---
 
 # Code review
@@ -52,6 +52,7 @@ review_request:
   reference: "feature/add-logout"
   focus: ""  # optional: specific areas to focus on
   intent: "Add logout functionality"  # optional, can be inferred
+  post_to_github: false  # optional: post review comments to the PR on GitHub
 ```
 
 ## Standalone workflow
@@ -200,6 +201,45 @@ Review against the shared review dimensions (see below). In standalone mode, ski
 ### 6. Provide feedback
 
 Compile findings into the feedback format (see below).
+
+### 7. Post to GitHub (optional)
+
+When `post_to_github: true` and scope_type is `pr`, submit the review directly to the pull request. Always show the review locally first and confirm with the user before posting.
+
+**Determine review action from verdict:**
+- Approved (no blockers, no major issues) → `--approve`
+- Changes requested (has blockers or major issues) → `--request-changes`
+- Comment only (minor issues or suggestions only) → `--comment`
+
+**Post the review with inline comments:**
+
+```bash
+gh api repos/{owner}/{repo}/pulls/{number}/reviews \
+  --method POST \
+  --field event="APPROVE|REQUEST_CHANGES|COMMENT" \
+  --field body="Review summary" \
+  --field 'comments=[
+    {
+      "path": "src/store/authSlice.ts",
+      "line": 45,
+      "body": "[Blocker] Token not cleared from localStorage\n\nSuggestion: Add localStorage.removeItem(\"token\")"
+    }
+  ]'
+```
+
+If there are no inline comments (e.g. approval with no issues), use the simpler form:
+
+```bash
+gh pr review {number} --approve --body "LGTM — no issues found."
+gh pr review {number} --request-changes --body "Review summary..."
+gh pr review {number} --comment --body "Review summary..."
+```
+
+**Rules:**
+- Never post without showing the review to the user first and getting confirmation
+- Map issue severity to comment format: prefix with `[Blocker]`, `[Major]`, `[Minor]`, or `[Suggestion]`
+- Include the suggestion in each inline comment so the author has actionable feedback
+- Keep the review body (top-level comment) concise — summary and verdict only
 
 ## Pipeline review process
 

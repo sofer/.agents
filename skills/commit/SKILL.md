@@ -267,3 +267,4 @@ project:
 - Platform-agnostic (works with GitHub, GitLab, Bitbucket)
 - Uses `gh` CLI when available for GitHub operations
 - Falls back to manual instructions when CLI not available
+- A pre-commit hook runs an automated code review on staged changes. If issues are found, the commit is blocked until they are resolved.
