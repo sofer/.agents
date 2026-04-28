@@ -13,20 +13,25 @@ When writing or editing this file, you MUST:
 
 Remove any such content if it already exists.
 
+**Keep entries in this file to one line each. If a rule needs explanation, put it in a skill or a linked doc.**
+
 ## Writing style
 
 - Use British English
-- Avoid using emdashes when parentheses or commas will do
+- Never use em dashes. Use commas, parentheses, full stops, or colons instead
 - For headers, use sentence case, not title case
+
+## Development
+
+- Red/Green/Refactor TDD
+- For any feature involving user registration, email, authentication links, or multi-step user flows: use the `end-to-end-verification` skill before pushing. Test the complete chain with a real email address.
+- Skills that should fire automatically get a hook-install hint at the end of the body (not the description). Use `/update-config` to wire.
 
 ## Git workflow
 
-Default: feature-branch strategy
-
-- Always use the `commit` skill for git operations (commit, branch, PR, merge)
-- Create feature branch before implementing changes
-- Open PR for review before merging to main
-- Squash merge to keep history clean
+- Check the repo's AGENTS.md for the commit strategy before starting work. Never push changes directly to main unless the repo's AGENTS.md explicitly permits it, or the user expressly requests it for this task. When in doubt, ask before pushing.
+- Never add Co-Authored-By or attribution footers to commit messages
+- Never add AI tool attribution lines to PR descriptions (e.g. "Generated with...")
 
 ## Response behaviour
 
