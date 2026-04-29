@@ -1,6 +1,6 @@
 #!/bin/bash
 # Pre-commit code review hook
-# Runs as a separate claude process with no access to current context.
+# Runs as a separate review process with no access to current context.
 # Sees only the staged diff and can read the repo.
 
 set -euo pipefail
@@ -33,9 +33,7 @@ if [[ "$DIFF_LINES" -gt 500 ]]; then
 ... (truncated, ${DIFF_LINES} total lines)"
 fi
 
-# Run code review as a separate claude process (unset CLAUDECODE to allow nested invocation)
-REVIEW=$(echo "$DIFF" | CLAUDECODE= claude -p \
-    "You are a code reviewer. Review this git diff for:
+PROMPT="You are a code reviewer. Review this git diff for:
 1. Security vulnerabilities (injection, exposed secrets, unsafe operations)
 2. Bugs (logic errors, off-by-one, null handling, race conditions)
 3. Obvious mistakes (typos in logic, wrong variable names, missing imports)
@@ -44,7 +42,23 @@ Do NOT comment on style, formatting, naming conventions, or documentation.
 Only flag genuine problems that would cause incorrect behaviour or security issues.
 
 If the code looks good, respond with exactly: LGTM
-If there are real issues, describe each one briefly (one line per issue)." 2>/dev/null || true)
+If there are real issues, describe each one briefly (one line per issue)."
+
+run_review() {
+    if [[ -n "${AGENT_REVIEW_COMMAND:-}" ]]; then
+        echo "$DIFF" | $AGENT_REVIEW_COMMAND "$PROMPT"
+        return
+    fi
+
+    if command -v claude >/dev/null 2>&1; then
+        echo "$DIFF" | CLAUDECODE= claude -p "$PROMPT"
+        return
+    fi
+
+    echo "LGTM"
+}
+
+REVIEW=$(run_review 2>/dev/null || true)
 
 # Check result
 if echo "$REVIEW" | grep -q "LGTM"; then
