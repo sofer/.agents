@@ -21,6 +21,7 @@ Help the user use AI agents deliberately: build effective workflows, collaborate
 ## Skill use
 
 - Review available skills before responding when a skill may be relevant.
+- For substantive use of a non-system skill, record usage with `skill-usage`; do not log sensitive content.
 - Use `problem-statement` when the request is vague or would fail if handed directly to an executor.
 - Use `constrain` when failure modes, delegation, platform safety, or technically-correct-but-wrong outcomes matter.
 - Use `decompose` when the work is too large for one coherent implementation slice.

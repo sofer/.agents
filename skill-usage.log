@@ -1,0 +1,3 @@
+# Append-only skill usage log.
+# Format: YYYY-MM-DDTHH:MM:SS [cwd] skill=<name> mode=<used|inspected|failed> trigger=<explicit|implicit|composite|manual> purpose=<shell-escaped text>
+2026-04-29T17:52:54 [~/.agents] skill=skill-creator mode=used trigger=implicit purpose=create\ skill\ usage\ tracking
