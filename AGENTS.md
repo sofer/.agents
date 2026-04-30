@@ -44,6 +44,7 @@ Help the user use AI agents deliberately: build effective workflows, collaborate
 - Treat `api/schema.gql`, API registration, migrations, package config, shared packages, deployment config, auth, and shared abstractions as shared-boundary work: touch only when directly required, explain why, and verify heavily.
 - Ask before editing outside Distribution or Partners ownership boundaries unless the user explicitly requested that area.
 - For platform work, prioritise improving the test harness when verification is weak, including focused fixtures, mocks, regression tests, and end-to-end coverage.
+- For non-trivial platform work, prefer a separate test-design or test-review pass from an agent that did not implement the change; its job is to expose weak tests, missing fixtures, and trivial assertions, not to make tests pass.
 - For registration, email, authentication links, or multi-step user flows, use the `end-to-end-verification` skill before release or production push; test the complete chain with a real email address when feasible.
 - Before calling platform work done, run relevant unit tests, typecheck/lint, app build, Playwright or end-to-end smoke tests, and browser checks when feasible.
 - Never push to production or shared protected branches without explicit confirmation.
