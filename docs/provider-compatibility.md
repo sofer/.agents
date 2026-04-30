@@ -23,6 +23,7 @@ Provider-specific directories remain necessary because each agent runtime owns i
 
 - `~/.codex/skills` points to `~/.agents/skills`.
 - `~/.agents/skills/superpowers` points to `~/.codex/superpowers/skills`.
+- Individual Superpowers skill directories are also exposed as top-level symlinks under `~/.agents/skills` so Codex can discover them as ordinary skills.
 - Codex hooks are registered in `~/.codex/config.toml` and point at scripts in `~/.agents/hooks`.
 - Codex plugins remain managed by Codex.
 
@@ -30,7 +31,7 @@ Provider-specific directories remain necessary because each agent runtime owns i
 
 Superpowers is installed separately for each provider.
 
-For Codex, the upstream repo is cloned to `~/.codex/superpowers` and exposed through a symlink at `~/.agents/skills/superpowers`.
+For Codex, the upstream repo is cloned to `~/.codex/superpowers` and exposed through symlinks in `~/.agents/skills`.
 
 For Claude, Superpowers remains installed as a Claude plugin and starts through Claude's plugin and hook system.
 
