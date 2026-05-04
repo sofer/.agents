@@ -1,0 +1,4 @@
+interface:
+  display_name: "FAC CRA Linear Issue"
+  short_description: "Manage Linear issues for fac-cra work"
+  default_prompt: "Create or close a Linear issue for this fac-cra task"
