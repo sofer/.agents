@@ -1,0 +1,4 @@
+interface:
+  display_name: "Platform module content audit"
+  short_description: "Audit FAC Learn module content."
+  default_prompt: "Audit a FAC platform Learn module by ID. Extract read-only production content, inspect relevant UI behaviour, and produce a markdown report with issues, fast reproduction steps, evidence, and fixes."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Authenticated UI inspection"
+  short_description: "Inspect web apps with authenticated sessions."
+  default_prompt: "Inspect an authenticated web app page safely: establish or verify a recognised session, open target URLs, capture visible UI evidence, and report findings without exposing secrets."
