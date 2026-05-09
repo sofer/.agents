@@ -11,6 +11,7 @@ Help the user use AI agents deliberately: build effective workflows, collaborate
 
 ## Default workflow
 
+- At session startup, check `~/.agents/config/command-permission-policy.md` and note any obvious provider-permission drift.
 - Before non-trivial work, inspect relevant repo instructions, README files, package scripts, existing tests, and available skills.
 - For non-trivial work, inspect first, then grill the user until the goal, scope, non-goals, risks, ownership boundaries, and verification plan are clear enough to build safely.
 - Use minimum viable grilling for ordinary work, and full grilling for ambiguous, high-risk, architectural, data, auth, email, payment, production, public API, or cross-app work.
@@ -45,6 +46,8 @@ Help the user use AI agents deliberately: build effective workflows, collaborate
 - Ask before editing outside Distribution or Partners ownership boundaries unless the user explicitly requested that area.
 - For platform work, prioritise improving the test harness when verification is weak, including focused fixtures, mocks, regression tests, and end-to-end coverage.
 - For non-trivial platform work, prefer a separate test-design or test-review pass from an agent that did not implement the change; its job is to expose weak tests, missing fixtures, and trivial assertions, not to make tests pass.
+- For ticket close-out, verify the ticket's stated scope with focused checks; ask before broadening into unrelated suites or audits.
+- For deploy-sensitive work, verify the affected runtime is actually serving the change; GitHub workflow success alone is not enough.
 - For registration, email, authentication links, or multi-step user flows, use the `end-to-end-verification` skill before release or production push; test the complete chain with a real email address when feasible.
 - Before calling platform work done, run relevant unit tests, typecheck/lint, app build, Playwright or end-to-end smoke tests, and browser checks when feasible.
 - Never push to production or shared protected branches without explicit confirmation.
@@ -85,7 +88,13 @@ Help the user use AI agents deliberately: build effective workflows, collaborate
 
 - Check the repo's `AGENTS.md` for commit strategy before starting work.
 - Repo-local instructions control project specifics, but global safety rules still apply.
-- Never push directly to main or production unless the repo's `AGENTS.md` explicitly permits it and the user has confirmed it for this task.
+- The user's usual repository workflow is direct-to-main, not PR-based, unless repo-local instructions or the user explicitly say otherwise.
+- Do not develop non-trivial changes directly on `main`.
+- Default to a short-lived feature branch for ordinary code changes. Prefer a git worktree for multi-turn work, risky shared-boundary changes, production-sensitive work, or when the current checkout has unrelated work that should stay untouched.
+- Before shipping direct-to-main work, update local `main` with `git pull --ff-only origin main`, squash-merge the work branch into `main` (`git merge --squash`), commit with a proper feature-shaped message, rerun the checks CI runs (full unit + integration test suites, typecheck, and any changed-app builds) on the merged `main` commit, then push.
+- Never push directly to main or production unless the user has explicitly confirmed it for this task.
+- If the user or repo-local instructions explicitly choose a PR workflow, follow the repo's GitHub default merge setting and do not override it.
+- For trivial single-command edits, documentation-only tweaks, or throwaway local investigation, a branch may be unnecessary. Never push without verifying the final `main` state.
 - Never add `Co-Authored-By` or AI-tool attribution footers to commit messages or PR descriptions.
 
 ## Response behaviour
